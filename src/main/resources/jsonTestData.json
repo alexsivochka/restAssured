@@ -1,0 +1,31 @@
+{
+  "class": [
+    { "name": "Ivan",
+      "surname": "Ivanov",
+      "age": "13",
+      "marks": [2,3,4,4,5],
+      "address": {
+        "street": "Lenin",
+        "house": 12
+      }
+    },
+    { "name": "Petr",
+      "surname": "Petrov",
+      "age": "14",
+      "marks": [5,5,3,5],
+      "address": {
+        "street": "Marx",
+        "house": 7
+      }
+    },
+    { "name": "Ivan",
+      "surname": "Sidorov",
+      "age": "14",
+      "marks": [3,4,2,2,3],
+      "address": {
+        "street": "Pobedy",
+        "house": 9
+      },
+      "some.value": 42
+    }]
+}
