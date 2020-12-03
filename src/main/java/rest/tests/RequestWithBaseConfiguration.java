@@ -34,7 +34,7 @@ public class RequestWithBaseConfiguration {
                 .statusCode(200)
                 .body("books.title[0]", is("Git Pocket Guide"))
                 .time(lessThan(5000L))
-                .log().all();
+                .log().body();
     }
 
 }

@@ -20,13 +20,13 @@ public class RequestWithSpecifications {
         given()
                 .spec(requestSpecification)
                 .basePath("/BookStore/v1/Books")
-                .log().headers()
+                .log().uri().log().headers()
         .when()
                 .get()
         .then()
                 .spec(responseSpecification)
                 .body("books.title[0]", is("Git Pocket Guide"))
-                .log().all();
+                .log().body();
     }
 
 }

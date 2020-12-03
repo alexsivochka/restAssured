@@ -1,7 +1,5 @@
 package rest.tests;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.path.json.JsonPath;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;

@@ -20,7 +20,8 @@
       "type": "string"
     },
     "pages": {
-      "type": "number"
+      "type": "number",
+      "minimum": 234
     },
     "description": {
       "type": "string"

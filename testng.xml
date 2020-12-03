@@ -5,7 +5,7 @@
 
     <test name="Rest assured">
         <classes>
-            <class name="rest.tests.JsonSchemaValidation" />
+            <class name="rest.tests.AllureAttachment" />
         </classes>
     </test>
 

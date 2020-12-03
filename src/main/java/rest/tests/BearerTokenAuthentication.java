@@ -15,9 +15,8 @@ import static org.hamcrest.Matchers.*;
 public class BearerTokenAuthentication {
 
     User user = User.builder()
-            .userName("test_123")
+            .userName("test_709")
             .password("Test@123")
-//            .userID("04a4396c-df28-4766-b605-6156533bbb83")
             .build();
 
     RequestSpecification requestSpecification = new RequestSpecs().requestSpec();
@@ -29,19 +28,31 @@ public class BearerTokenAuthentication {
                     .spec(requestSpecification)
                     .basePath("/Account/v1/GenerateToken")
                 .when()
-                    .body("{\n" +
-                            "  \"userName\": \"test_123\",\n" +
-                            "  \"password\": \"Test@123\"\n" +
-                            "}")
+                    .body(user)
                     .post()
                 .then()
                     .spec(responseSpecification)
                     .extract().response().jsonPath();
-        String token = response.getString("token");
-        return token;
+        return response.getString("token");
     }
 
     @Test(priority = 1)
+    public void testAddNewUser(){
+        Response response =
+                given()
+                    .spec(requestSpecification)
+                    .basePath("/Account/v1/User")
+                .when()
+                    .body(user)
+                    .post()
+                .then()
+                    .statusCode(201)
+                    .log().body()
+                    .extract().response();
+        user.setUserID(response.getBody().jsonPath().getString("userID"));
+    }
+
+    @Test(priority = 2)
     public void testAddBook() {
 
         given()
@@ -51,10 +62,10 @@ public class BearerTokenAuthentication {
                 .log().headers()
         .when()
                 .body("{\n" +
-                        "  \"userId\": \"04a4396c-df28-4766-b605-6156533bbb83\",\n" +
+                        "  \"userId\": \""+ user.getUserID() + "\",\n" +
                         "  \"collectionOfIsbns\": [\n" +
                         "    {\n" +
-                        "      \"isbn\": \"9781449337711\"\n" +
+                        "      \"isbn\": \"9781449325862\"\n" +
                         "    }\n" +
                         "  ]\n" +
                         "}")
@@ -64,10 +75,10 @@ public class BearerTokenAuthentication {
                 .extract().response().prettyPrint();
     }
 
-    @Test(priority = 2)
+    @Test(priority = 3)
     public void checkBookAddToUser(){
 
-        String path = "/Account/v1/User/".concat("04a4396c-df28-4766-b605-6156533bbb83");
+        String path = "/Account/v1/User/".concat(user.getUserID());
 
         given()
                 .spec(requestSpecification)
@@ -77,12 +88,13 @@ public class BearerTokenAuthentication {
                 .get()
         .then()
                 .spec(responseSpecification)
-                .body("books.isbn", hasItem("9781449337711"))
+                .body("books.isbn", hasItem("9781449325862"))
+                .body("books[0].title", equalTo("Git Pocket Guide"))
                 .extract().response().body().prettyPrint();
     }
 
     @Test(priority = 3)
-    public void checkUserBookCount(){
+    public void checkBookCount(){
 
          given()
                 .spec(requestSpecification)
